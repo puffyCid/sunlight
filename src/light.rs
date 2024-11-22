@@ -89,9 +89,9 @@ mod tests {
     use super::extract_protobuf;
 
     #[test]
-    #[should_panic(expected="Parser")]
+    #[should_panic(expected = "Parser")]
     fn test_extract_protobuf() {
-        let bad_data = [0,0,1,4,5,0,0];
+        let bad_data = [0, 0, 1, 4, 5, 0, 0];
         let _ = extract_protobuf(&bad_data).unwrap();
     }
 }
