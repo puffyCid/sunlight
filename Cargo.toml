@@ -5,7 +5,7 @@ edition = "2021"
 license = "MIT"
 repository = "https://github.com/puffyCid/sunlight"
 description = "A very simple Protobuf binary parser"
-categories = ["forensics"]
+keywords = ["forensics"]
 
 [dependencies]
 nom = "7.1.3"
