@@ -83,3 +83,15 @@ pub fn extract_protobuf(data: &[u8]) -> Result<HashMap<usize, ProtoTag>, Sunligh
 
     Ok(proto_map)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::extract_protobuf;
+
+    #[test]
+    #[should_panic(expected="Parser")]
+    fn test_extract_protobuf() {
+        let bad_data = [0,0,1,4,5,0,0];
+        let _ = extract_protobuf(&bad_data).unwrap();
+    }
+}

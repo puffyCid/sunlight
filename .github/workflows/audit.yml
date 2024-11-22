@@ -24,4 +24,3 @@ jobs:
         uses: actions-rust-lang/audit@v1
         with:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ignore: "RUSTSEC-2023-0071"
