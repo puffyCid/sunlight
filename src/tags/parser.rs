@@ -24,16 +24,22 @@ pub(crate) fn parse_tag(data: &[u8]) -> nom::IResult<&[u8], HashMap<usize, Proto
             WireType::Fixed64 => parse_fixed64(input)?,
             WireType::Len => parse_length_tag(input)?,
             WireType::StartGroup => {
-                warn!("[sunlight] got start group wiretype. This is deprecated, ending parsing now. Returning base64 as final result");
+                warn!(
+                    "[sunlight] got start group wiretype. This is deprecated, ending parsing now. Returning base64 as final result"
+                );
                 ([].as_slice(), Value::String(base64_encode_standard(input)))
             }
             WireType::EndGroup => {
-                warn!("[sunlight] got end group wiretype. This is deprecated, ending parsing now. Returning base64 as final result");
+                warn!(
+                    "[sunlight] got end group wiretype. This is deprecated, ending parsing now. Returning base64 as final result"
+                );
                 ([].as_slice(), Value::String(base64_encode_standard(input)))
             }
             WireType::Fixed32 => parse_fixed32(input)?,
             WireType::Unknown => {
-                warn!("[sunlight] got unknown wire type. Protobuf data may be corrupted or this is not protobuf data, ending parsing now. Returning base64 as final result");
+                warn!(
+                    "[sunlight] got unknown wire type. Protobuf data may be corrupted or this is not protobuf data, ending parsing now. Returning base64 as final result"
+                );
                 ([].as_slice(), Value::String(base64_encode_standard(input)))
             }
         };
@@ -136,7 +142,10 @@ mod tests {
         ];
         let (_, result) = parse_tag(&test).unwrap();
         assert_eq!(result.len(), 9);
-        assert_eq!(result.get(&4).unwrap().value.to_string(), "{\"double\":753770588.413478,\"signed\":4739606294354521305,\"unsigned\":4739606294354521305}");
+        assert_eq!(
+            result.get(&4).unwrap().value.to_string(),
+            "{\"double\":753770588.413478,\"signed\":4739606294354521305,\"unsigned\":4739606294354521305}"
+        );
         assert_eq!(
             result.get(&0).unwrap().value.as_array().unwrap(),
             &vec![0, 0]
@@ -158,7 +167,10 @@ mod tests {
         ];
         let (_, result) = parse_tag(&test).unwrap();
         assert_eq!(result.len(), 9);
-        assert_eq!(result.get(&4).unwrap().value.to_string(), "{\"double\":753768250.446566,\"signed\":4739606274742233363,\"unsigned\":4739606274742233363}");
+        assert_eq!(
+            result.get(&4).unwrap().value.to_string(),
+            "{\"double\":753768250.446566,\"signed\":4739606274742233363,\"unsigned\":4739606274742233363}"
+        );
         assert_eq!(
             result.get(&0).unwrap().value.as_array().unwrap(),
             &vec![0, 0]
@@ -204,8 +216,14 @@ mod tests {
             result.get(&4).unwrap().value,
             "com.apple.siri.metrics.MetricsExtension.scorecard.daily"
         );
-        assert_eq!(result.get(&3).unwrap().value.to_string(), "{\"double\":1732406400.0,\"signed\":4745053047086907392,\"unsigned\":4745053047086907392}");
-        assert_eq!(result.get(&12).unwrap().value.to_string(), "{\"double\":13.499608993530273,\"signed\":4623789222308872192,\"unsigned\":4623789222308872192}");
+        assert_eq!(
+            result.get(&3).unwrap().value.to_string(),
+            "{\"double\":1732406400.0,\"signed\":4745053047086907392,\"unsigned\":4745053047086907392}"
+        );
+        assert_eq!(
+            result.get(&12).unwrap().value.to_string(),
+            "{\"double\":13.499608993530273,\"signed\":4623789222308872192,\"unsigned\":4623789222308872192}"
+        );
     }
 
     #[test]
@@ -221,6 +239,9 @@ mod tests {
             result.get(&1024).unwrap().value.to_string(),
             "{\"float\":null,\"signed\":-20,\"unsigned\":4294967276}"
         );
-        assert_eq!(result.get(&32768).unwrap().value.to_string(), "{\"2\":{\"tag\":{\"field\":2,\"tag_byte\":18,\"wire_type\":\"Len\"},\"value\":\"Test1234\"},\"3\":{\"tag\":{\"field\":3,\"tag_byte\":25,\"wire_type\":\"Fixed64\"},\"value\":{\"double\":2.1,\"signed\":4611911198408756429,\"unsigned\":4611911198408756429}}}");
+        assert_eq!(
+            result.get(&32768).unwrap().value.to_string(),
+            "{\"2\":{\"tag\":{\"field\":2,\"tag_byte\":18,\"wire_type\":\"Len\"},\"value\":\"Test1234\"},\"3\":{\"tag\":{\"field\":3,\"tag_byte\":25,\"wire_type\":\"Fixed64\"},\"value\":{\"double\":2.1,\"signed\":4611911198408756429,\"unsigned\":4611911198408756429}}}"
+        );
     }
 }

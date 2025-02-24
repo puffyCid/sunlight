@@ -1,4 +1,4 @@
-use crate::utils::nom_helper::{nom_unsigned_one_byte, Endian};
+use crate::utils::nom_helper::{Endian, nom_unsigned_one_byte};
 use serde_json::Value;
 
 /// Parse var based tags. Will be a number representing one of: int32, int64, uint32, uint64, sint32, sint64, bool, or enum
