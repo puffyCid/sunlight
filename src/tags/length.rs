@@ -2,7 +2,7 @@ use crate::{
     tags::parser::parse_tag,
     utils::{
         encoding::base64_encode_standard,
-        nom_helper::{nom_unsigned_one_byte, Endian},
+        nom_helper::{Endian, nom_unsigned_one_byte},
         strings::extract_utf8_string,
     },
 };

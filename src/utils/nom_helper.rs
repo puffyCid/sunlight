@@ -1,6 +1,6 @@
 use nom::{
     bytes::complete::take,
-    number::complete::{le_i32, le_i64, le_u32, le_u64, le_u8},
+    number::complete::{le_i32, le_i64, le_u8, le_u32, le_u64},
 };
 use std::mem::size_of;
 
@@ -79,8 +79,8 @@ pub(crate) fn nom_signed_eight_bytes(data: &[u8], endian: Endian) -> nom::IResul
 #[cfg(test)]
 mod tests {
     use crate::utils::nom_helper::{
-        nom_signed_eight_bytes, nom_signed_four_bytes, nom_unsigned_eight_bytes,
-        nom_unsigned_four_bytes, nom_unsigned_one_byte, Endian,
+        Endian, nom_signed_eight_bytes, nom_signed_four_bytes, nom_unsigned_eight_bytes,
+        nom_unsigned_four_bytes, nom_unsigned_one_byte,
     };
 
     #[test]

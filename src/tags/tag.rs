@@ -1,6 +1,6 @@
 use crate::{
     light::{Tag, WireType},
-    utils::nom_helper::{nom_unsigned_one_byte, Endian},
+    utils::nom_helper::{Endian, nom_unsigned_one_byte},
 };
 
 /// Determine Protobuf Tag type

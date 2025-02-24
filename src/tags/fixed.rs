@@ -1,6 +1,6 @@
 use crate::utils::nom_helper::{
-    nom_signed_eight_bytes, nom_signed_four_bytes, nom_unsigned_eight_bytes,
-    nom_unsigned_four_bytes, Endian,
+    Endian, nom_signed_eight_bytes, nom_signed_four_bytes, nom_unsigned_eight_bytes,
+    nom_unsigned_four_bytes,
 };
 use nom::{
     bytes::complete::take,
@@ -68,7 +68,10 @@ mod tests {
         ];
         let (remaining, result) = parse_fixed64(&test).unwrap();
         assert_eq!(remaining.len(), 51);
-        assert_eq!(result.to_string(), "{\"double\":753770588.413478,\"signed\":4739606294354521305,\"unsigned\":4739606294354521305}");
+        assert_eq!(
+            result.to_string(),
+            "{\"double\":753770588.413478,\"signed\":4739606294354521305,\"unsigned\":4739606294354521305}"
+        );
     }
 
     #[test]
