@@ -3,6 +3,11 @@ use serde_json::Value;
 
 /// Parse var based tags. Will be a number representing one of: int32, int64, uint32, uint64, sint32, sint64, bool, or enum
 pub(crate) fn parse_var(data: &[u8]) -> nom::IResult<&[u8], Value> {
+    let (proto_data, value) = parse_var_len(data)?;
+    Ok((proto_data, Value::Number(value.into())))
+}
+
+pub(crate) fn parse_var_len(data: &[u8]) -> nom::IResult<&[u8], isize> {
     let mut proto_data = data;
     let mut var_value: isize = 0;
 
@@ -20,7 +25,8 @@ pub(crate) fn parse_var(data: &[u8]) -> nom::IResult<&[u8], Value> {
             break;
         }
     }
-    Ok((proto_data, Value::Number(var_value.into())))
+
+    Ok((proto_data, var_value))
 }
 
 #[cfg(test)]

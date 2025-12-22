@@ -1,29 +1,14 @@
 use crate::{
-    tags::parser::parse_tag,
-    utils::{
-        encoding::base64_encode_standard,
-        nom_helper::{Endian, nom_unsigned_one_byte},
-        strings::extract_utf8_string,
-    },
+    tags::{parser::parse_tag, var::parse_var_len},
+    utils::{encoding::base64_encode_standard, strings::extract_utf8_string},
 };
 use nom::bytes::complete::take;
 use serde_json::Value;
 
 /// Parse length based tags. The value can be either a string or nested object (sub-message)
 pub(crate) fn parse_length_tag(data: &[u8]) -> nom::IResult<&[u8], Value> {
-    let (mut input, value_byte) = nom_unsigned_one_byte(data, Endian::Le)?;
-    let mut value_length = value_byte as usize;
-    let mut check_msb = value_length;
-
-    // Handle values larger than u8 byte size
-    while (check_msb >> 7) & 1 != 0 {
-        let (remaining, check) = nom_unsigned_one_byte(input, Endian::Le)?;
-        value_length *= check as usize;
-
-        check_msb = check as usize;
-        input = remaining;
-    }
-    let (input, value) = take(value_length)(input)?;
+    let (input, value_length) = parse_var_len(data)?;
+    let (input, value) = take(value_length as usize)(input)?;
 
     // Try string parsing first
     let message = extract_utf8_string(value);
