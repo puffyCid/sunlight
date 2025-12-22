@@ -11,7 +11,6 @@ use serde_json::Value;
 /// Parse length based tags. The value can be either a string or nested object (sub-message)
 pub(crate) fn parse_length_tag(data: &[u8]) -> nom::IResult<&[u8], Value> {
     let (input, value_length) = parse_var_len(data)?;
-    let (input, value) = take(value_length as usize)(input)?;
 
     // Try string parsing first
     let message = extract_utf8_string(value);
