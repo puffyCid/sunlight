@@ -18,12 +18,13 @@ pub(crate) fn get_tag_type(data: &[u8]) -> nom::IResult<&[u8], Tag> {
 
     let mut check_msb = tag_byte;
     // If Most significant bit is set. The next byte is part of the tag
-    while (check_msb >> 7) & 1 != 0 {
+    while (check_msb >> 7) & 1 != 0  {
         let (remaining, check) = nom_unsigned_one_byte(input, Endian::Le)?;
         tag.field *= check as usize;
         check_msb = check;
         input = remaining;
     }
+
 
     Ok((input, tag))
 }

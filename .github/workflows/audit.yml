@@ -19,8 +19,8 @@ jobs:
             }
     runs-on: ${{ matrix.info.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 #v5
       - name: Run audit action to view any security issues
-        uses: actions-rust-lang/audit@v1
+        uses: actions-rust-lang/audit@410bbe6de17ca06c0a60070cca18c88b485ca5a1 # v1.2.6
         with:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
