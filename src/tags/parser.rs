@@ -17,7 +17,6 @@ pub(crate) fn parse_tag(data: &[u8]) -> nom::IResult<&[u8], HashMap<usize, Proto
     let mut proto_map: HashMap<usize, ProtoTag> = HashMap::new();
 
     while !proto_data.is_empty() {
-
         let (input, tag) = get_tag_type(proto_data)?;
 
         let (input, value) = match tag.wire_type {
