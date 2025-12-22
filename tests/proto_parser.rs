@@ -58,5 +58,4 @@ fn test_protobuf_parser_coalitions() {
             .unwrap(),
         json!("com.apple.localizationswitcherd").as_str().unwrap()
     );
-
 }
