@@ -1,6 +1,6 @@
 [package]
 name = "sunlight"
-version = "0.1.4"
+version = "0.1.5"
 edition = "2024"
 license = "MIT"
 repository = "https://github.com/puffyCid/sunlight"
@@ -11,5 +11,5 @@ keywords = ["forensics"]
 nom = "8.0.0"
 serde = { version = "1.0.228", features = ["derive"] }
 log = "0.4.29"
-serde_json = "1.0.145"
+serde_json = "1.0.149"
 base64 = "0.22.1"
