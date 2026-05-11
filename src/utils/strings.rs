@@ -1,5 +1,5 @@
 use crate::utils::encoding::base64_encode_standard;
-use log::warn;
+use tracing::{Level, event};
 
 /// Get a UTF8 string from provided bytes data. Invalid UTF8 is base64 encoded. Use `extract_uf8_string_lossy` if replacing bytes is acceptable
 pub(crate) fn extract_utf8_string(data: &[u8]) -> String {
@@ -7,7 +7,10 @@ pub(crate) fn extract_utf8_string(data: &[u8]) -> String {
     match utf8_result {
         Ok(result) => result.trim_end_matches('\0').to_string(),
         Err(err) => {
-            warn!("Failed to get UTF8 string for Protobuf: {err:?}");
+            event!(
+                Level::WARN,
+                "Failed to get UTF8 string for Protobuf: {err:?}"
+            );
             let max_size = 2097152;
             let issue = if data.len() < max_size {
                 base64_encode_standard(data)

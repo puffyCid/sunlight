@@ -7,9 +7,9 @@ use crate::{
     },
     utils::encoding::base64_encode_standard,
 };
-use log::warn;
 use serde_json::Value;
 use std::collections::HashMap;
+use tracing::{Level, event};
 
 /// Extract the Protobuf values from the provided data
 pub(crate) fn parse_tag(data: &[u8]) -> nom::IResult<&[u8], HashMap<usize, ProtoTag>> {
@@ -24,20 +24,23 @@ pub(crate) fn parse_tag(data: &[u8]) -> nom::IResult<&[u8], HashMap<usize, Proto
             WireType::Fixed64 => parse_fixed64(input)?,
             WireType::Len => parse_length_tag(input)?,
             WireType::StartGroup => {
-                warn!(
+                event!(
+                    Level::WARN,
                     "[sunlight] got start group wiretype. This is deprecated, ending parsing now. Returning base64 as final result"
                 );
                 ([].as_slice(), Value::String(base64_encode_standard(input)))
             }
             WireType::EndGroup => {
-                warn!(
+                event!(
+                    Level::WARN,
                     "[sunlight] got end group wiretype. This is deprecated, ending parsing now. Returning base64 as final result"
                 );
                 ([].as_slice(), Value::String(base64_encode_standard(input)))
             }
             WireType::Fixed32 => parse_fixed32(input)?,
             WireType::Unknown => {
-                warn!(
+                event!(
+                    Level::WARN,
                     "[sunlight] got unknown wire type. Protobuf data may be corrupted or this is not protobuf data, ending parsing now. Returning base64 as final result"
                 );
                 ([].as_slice(), Value::String(base64_encode_standard(input)))
