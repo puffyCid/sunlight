@@ -2,7 +2,7 @@ use crate::{error::SunlightError, tags::parser::parse_tag};
 use serde::Serialize;
 use serde_json::Value;
 use std::collections::HashMap;
-use tracing::{Level, event};
+use tracing::error;
 
 #[derive(Debug, Serialize)]
 pub struct ProtoTag {
@@ -76,10 +76,7 @@ pub fn extract_protobuf(data: &[u8]) -> Result<HashMap<usize, ProtoTag>, Sunligh
     let proto_map = match proto_result {
         Ok((_, results)) => results,
         Err(err) => {
-            event!(
-                Level::ERROR,
-                "[sunlight] could not parse provided protobuf bytes: {err:?}"
-            );
+            error!("[sunlight] could not parse provided protobuf bytes: {err:?}");
             return Err(SunlightError::Parser);
         }
     };
